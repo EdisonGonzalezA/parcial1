@@ -71,23 +71,17 @@
                 </li>
                 <li class="menu-item">
                     <a href="pelicula/pelicula.views.php" target="base" class="menu-link">
-                        <?php $_SESSION['rutas'] = 'Usuarios'; ?>
+                        <?php $_SESSION['rutas'] = 'pelicula'; ?>
                         <div data-i18n="Without navbar">Peliculas</div>
                     </a>
                 </li>   
                 <li class="menu-item">
                     <a href="actor/actor.views.php" target="base" class="menu-link">
-                        <?php $_SESSION['rutas'] = 'Usuarios'; ?>
+                        <?php $_SESSION['rutas'] = 'actor'; ?>
                         <div data-i18n="Without navbar">Actores</div>
                     </a>
                 </li>     
-                </li>   
-                <li class="menu-item">
-                    <a href="usuarios/actua_en.views.php" target="base" class="menu-link">
-                        <?php $_SESSION['rutas'] = 'Usuarios'; ?>
-                        <div data-i18n="Without navbar">Lo Que Ver</div>
-                    </a>
-                </li>   
+        </li>                      
         <!-- Misc -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
         <li class="menu-item">

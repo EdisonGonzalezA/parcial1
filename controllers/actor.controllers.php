@@ -28,9 +28,9 @@ switch ($_GET["op"]) {
         $Edad = $_POST["Edad"];
         $Genero = $_POST["Genero"];
         $Nacionalidad = $_POST["Nacionalidad"];
-        $ID_pelicula = $_POST["ID_pelicula"];
+        $ID_actor = $_POST["ID_actor"];
         $datos = array();
-        $datos = $actor->Insertar($Nombre, $Edad, $Genero, $Nacionalidad, $ID_pelicula);
+        $datos = $actor->Insertar($Nombre, $Edad, $Genero, $Nacionalidad, $ID_actor);
         echo json_encode($datos);
         break;
         /*TODO: Procedimiento para actualizar */
@@ -47,7 +47,7 @@ switch ($_GET["op"]) {
         break;
         /*TODO: Procedimiento para eliminar */
     case 'eliminar':
-        $ID_actor = $_POST["idUsuaID_actorrios"];
+        $ID_actor = $_POST["ID_actor"];
         $datos = array();
         $datos = $actor->Eliminar($ID_actor);
         echo json_encode($datos);

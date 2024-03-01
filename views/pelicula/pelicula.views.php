@@ -1,5 +1,5 @@
 <?php require_once('../html/head2.php')  ?>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Basic Bootstrap Table -->
 <div class="card">
     <button type="button" class="btn btn-outline-secondary" onclick="pelicula()" data-bs-toggle="modal" data-bs-target="#ModalPelicula">Nueva Pelicula</button>
@@ -32,11 +32,12 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="tituloModal"></h5>
+                <h5 class="modal-title" id="tituloModal">Insertar Pelicula</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
         <!-- From-->
             <form id="form_pelicula" method="post">
+            <input type="hidden" name="ID_pelicula" id="ID_pelicula">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="Nombres">Titulo</label>

@@ -1,19 +1,19 @@
 <?php require_once('../html/head2.php')  ?>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Basic Bootstrap Table -->
 <div class="card">
-    <button type="button" class="btn btn-outline-secondary" onclick="pelicula()" data-bs-toggle="modal" data-bs-target="#ModalActor">Nuevo Actor</button>
+    <button type="button" class="btn btn-outline-secondary" onclick="actor()" data-bs-toggle="modal" data-bs-target="#ModalActor">Nuevo Actor</button>
 
 
-    <h5 class="card-header">Lista de Peliculas</h5>
+    <h5 class="card-header">Lista de Actores</h5>
     <div class="table-responsive text-nowrap">
         <table class="table">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Titulo</th>
+                    <th>Nombre</th>
+                    <th>Edad</th>
                     <th>Genero</th>
-                    <th>Año</th>
                     <th>Nacionalidad</th>
                     <th>Acciones</th>
                 </tr>
@@ -32,7 +32,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="tituloModal"></h5>
+                <h5 class="modal-title" id="tituloModal">Insertar Actor</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 

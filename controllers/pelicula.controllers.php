@@ -3,14 +3,14 @@ error_reporting(0);
 /*TODO: Requerimientos */
 require_once('../config/sesiones.php');
 require_once("../models/pelicula.models.php");
-//require_once("../models/Accesos.models.php");
+
 $pelicula = new pelicula;
-//$Accesos = new Accesos;
+
 switch ($_GET["op"]) {
         /*TODO: Procedimiento para listar todos los registros */
     case 'todos':
         $datos = array();
-        $datos = $Pelicula->todos();
+        $datos = $pelicula->todos();
         while ($row = mysqli_fetch_assoc($datos)) {
             $todos[] = $row;
         }
@@ -20,7 +20,7 @@ switch ($_GET["op"]) {
     case 'uno':
         $ID_pelicula = $_POST["ID_pelicula"];
         $datos = array();
-        $datos = $Pelicula->uno($ID_pelicula);
+        $datos = $pelicula->uno($ID_pelicula);
         $res = mysqli_fetch_assoc($datos);
         echo json_encode($res);
         break;
@@ -30,9 +30,9 @@ switch ($_GET["op"]) {
         $Genero = $_POST["Genero"];
         $Anio = $_POST["Anio"];
         $Director = $_POST["Director"];
-        $ID_actor = $_POST["ID_actor"];
+        $ID_pelicula = $_POST["ID_pelicula"];
         $datos = array();
-        $datos = $Pelicula->Insertar($Titulo, $Genero, $Anio, $Director, $ID_actor);
+        $datos = $pelicula->Insertar($Titulo, $Genero, $Anio, $Director, $ID_pelicula);
         echo json_encode($datos);
         break;
         /*TODO: Procedimiento para actualizar */
@@ -44,14 +44,14 @@ switch ($_GET["op"]) {
         $Director = $_POST["Director"];
         $ID_actor = $_POST["ID_actor"];
         $datos = array();
-        $datos = $Pelicula->Actualizar($ID_pelicula, $Titulo, $Genero, $Anio, $Director, $ID_actor);
+        $datos = $pelicula->Actualizar($ID_pelicula, $Titulo, $Genero, $Anio, $Director, $ID_actor);
         echo json_encode($datos);
         break;
         /*TODO: Procedimiento para eliminar */
     case 'eliminar':
         $ID_pelicula = $_POST["ID_pelicula"];
         $datos = array();
-        $datos = $Pelicula->Eliminar($ID_pelicula);
+        $datos = $pelicula->Eliminar($ID_pelicula);
         echo json_encode($datos);
         break;
         /*TODO: Procedimiento para insertar */

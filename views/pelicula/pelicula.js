@@ -4,18 +4,17 @@ function init() {
   });
 }
 
+var ruta = "../../controllers/pelicula.controllers.php?op=";
 $().ready(() => {
   CargaLista();
 });
 
 var CargaLista = () => {
   var html = "";
-  $.get(
-    "../../controllers/pelicula.controllers.php?op=todos",
-    (ListaPelicula) => {
-      ListaPelicula = JSON.parse(ListaPelicula);
-      $.each(ListaPelicula, (index, pelicula) => {
-        html += `<tr>
+  $.get(ruta + "todos", (ListaPelicula) => {
+    ListaPelicula = JSON.parse(ListaPelicula);
+    $.each(ListaPelicula, (index, pelicula) => {
+      html += `<tr>
                     <td>${index + 1}</td>
                     <td>${pelicula.Titulo}</td>
                     <td>${pelicula.Genero}</td>
@@ -24,21 +23,20 @@ var CargaLista = () => {
         <td>
         <button class='btn btn-primary' onclick='uno(${
           pelicula.ID_pelicula
-        })'>Editar</button>
-        <button class='btn btn-warning' onclick='eliminar(${
+        })'data-bs-toggle="modal" data-bs-target="#ModalPelicula">Editar</button>
+        <button class='btn btn-danger' onclick='eliminar(${
           pelicula.ID_pelicula
         })'>Eliminar</button>
                     `;
-      });
-      $("#ListaPelicula").html(html);
-    }
-  );
+    });
+    $("#ListaPelicula").html(html);
+  });
 };
 
 var GuardarEditar = (e) => {
   e.preventDefault();
   var DatosFormularioPelicula = new FormData($("#form_pelicula")[0]);
-  var accion = "../../controllers/pelicula.controllers.php?op=insertar";
+  var accion = ruta + "insertar";
 
   for (var pair of DatosFormularioPelicula.entries()) {
     console.log(pair[0] + ", " + pair[1]);
@@ -54,7 +52,11 @@ var GuardarEditar = (e) => {
       console.log(respuesta);
       respuesta = JSON.parse(respuesta);
       if (respuesta == "ok") {
-        alert("Se guardo con éxito");
+        Swal.fire({
+          title: "Pelicula!",
+          text: "Se Guardo con exito",
+          icon: "success",
+        });
         CargaLista();
         LimpiarCajas();
       } else {
@@ -64,51 +66,57 @@ var GuardarEditar = (e) => {
   });
 };
 
-/*var sucursales = () => {
-  return new Promise((resolve, reject) => {
-    var html = `<option value="0">Seleccione una opción</option>`;
-    $.post(
-      "../../controllers/sucursal.controllers.php?op=todos",
-      async (ListaSucursales) => {
-        ListaSucursales = JSON.parse(ListaSucursales);
-        $.each(ListaSucursales, (index, sucursal) => {
-          html += `<option value="${sucursal.SucursalId}">${sucursal.Nombre}</option>`;
-        });
-        await $("#SucursalId").html(html);
-        resolve();
-      }
-    ).fail((error) => {
-      reject(error);
-    });
+var uno = async (ID_pelicula) => {
+  await CargaLista();
+  document.getElementById("tituloModal").innerHTML = "Actualizar Pelicula";
+  $.post(ruta + "uno", { ID_pelicula: ID_pelicula }, (pelicula) => {
+    pelicula = JSON.parse(pelicula);
+    document.getElementById("ID_pelicula").value = pelicula.ID_pelicula;
+    document.getElementById("Titulo").value = pelicula.Titulo;
+    document.getElementById("Genero").value = pelicula.Genero;
+    document.getElementById("Anio").value = pelicula.Anio;
+    document.getElementById("Director").value = pelicula.Director;
   });
 };
 
-var roles = () => {
-  return new Promise((resolve, reject) => {
-    var html = `<option value="0">Seleccione una opción</option>`;
-    $.post(
-      "../../controllers/rol.controllers.php?op=todos",
-      async (ListaRoles) => {
-        ListaRoles = JSON.parse(ListaRoles);
-        $.each(ListaRoles, (index, rol) => {
-          html += `<option value="${rol.idRoles}">${rol.Rol}</option>`;
-        });
-        await $("#RolId").html(html);
-        resolve();
-      }
-    ).fail((error) => {
-      reject(error);
-    });
+var eliminar = (ID_pelicula) => {
+  Swal.fire({
+    title: "Pelicula",
+    text: "Esta seguro que desea eliminar la pelicula",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Eliminar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post(ruta + "eliminar", { ID_pelicula: ID_pelicula }, (respuesta) => {
+        respuesta = JSON.parse(respuesta);
+        if (respuesta == "ok") {
+          CargaLista();
+          Swal.fire({
+            title: "Pelicula!",
+            text: "Se emliminó con éxito",
+            icon: "success",
+          });
+        } else {
+          Swal.fire({
+            title: "Pelicula!",
+            text: "No se elimino con exito",
+            icon: "error",
+          });
+        }
+      });
+    }
   });
 };
-
-var eliminar = () => {};*/
 
 var LimpiarCajas = () => {
-  (document.getElementById("Titulo").value = ""),
-    (document.getElementById("Genero").value = ""),
-    (document.getElementById("Anio").value = ""),
-    (document.getElementById("Director").value = ""),
-    $("#ModalUsuarios").modal("hide");
+  document.getElementById("Titulo").value = "";
+  document.getElementById("Genero").value = "";
+  document.getElementById("Anio").value = "";
+  document.getElementById("Director").value = "";
+  document.getElementById("tituloModal").innerHTML = "Insertar Usuario";
+  $("#ModalPelicula").modal("hide");
 };
 init();

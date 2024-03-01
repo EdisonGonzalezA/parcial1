@@ -46,7 +46,7 @@ class actua_en
         $con = $con->ProcedimientoConectar();
         $cadena = "DELETE FROM `actua_en` WHERE `ID_pelicula`= $ID_pelicula";
         if (mysqli_query($con, $cadena)) {
-            return true;
+            return "ok";
         } else {
             return false;
         }

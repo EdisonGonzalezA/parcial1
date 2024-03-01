@@ -68,13 +68,15 @@ class Usuarios
     /*TODO: Procedimiento para Eliminar */
     public function Eliminar($idUsuarios)
     {
+        require_once('Usuarios_Roles.models.php');
         $UsRoles = new Usuarios_Roles();
-        $UsRoles->Eliminar($idUsuarios);
-        $con = new ClaseConectar();
-        $con = $con->ProcedimientoConectar();
-        $cadena = "delete from Usuarios where idUsuarios = $idUsuarios";
-        if (mysqli_query($con, $cadena)) {
-            return true;
+        $usro = $UsRoles->Eliminar($idUsuarios);
+        if ($usro == 'ok') {
+            $con = new ClaseConectar();
+            $con = $con->ProcedimientoConectar();
+            $cadena = "delete from Usuarios where idUsuarios = $idUsuarios";
+
+            return "ok";
         } else {
             return false;
         }

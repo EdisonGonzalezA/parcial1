@@ -4,13 +4,14 @@ function init() {
   });
 }
 
+var ruta = "../../controllers/actor.controllers.php?op=";
 $().ready(() => {
   CargaLista();
 });
 
 var CargaLista = () => {
   var html = "";
-  $.get("../../controllers/actor.controllers.php?op=todos", (ListaActor) => {
+  $.get(ruta + "todos", (ListaActor) => {
     ListaActor = JSON.parse(ListaActor);
     $.each(ListaActor, (index, actor) => {
       html += `<tr>
@@ -22,8 +23,8 @@ var CargaLista = () => {
       <td>
       <button class='btn btn-primary' onclick='uno(${
         actor.ID_actor
-      })'>Editar</button>
-      <button class='btn btn-warning' onclick='eliminar(${
+      })'data-bs-toggle="modal" data-bs-target="#ModalActor">Editar</button>
+      <button class='btn btn-danger' onclick='eliminar(${
         actor.ID_actor
       })'>Eliminar</button>
                   `;
@@ -35,7 +36,7 @@ var CargaLista = () => {
 var GuardarEditar = (e) => {
   e.preventDefault();
   var DatosFormularioactor = new FormData($("#form_actor")[0]);
-  var accion = "../../controllers/actor.controllers.php?op=insertar";
+  var accion = ruta + "insertar";
 
   for (var pair of DatosFormularioactor.entries()) {
     console.log(pair[0] + ", " + pair[1]);
@@ -51,7 +52,11 @@ var GuardarEditar = (e) => {
       console.log(respuesta);
       respuesta = JSON.parse(respuesta);
       if (respuesta == "ok") {
-        alert("Se guardo con éxito");
+        Swal.fire({
+          title: "Actor!",
+          text: "Se Guardo con exito",
+          icon: "success",
+        });
         CargaLista();
         LimpiarCajas();
       } else {
@@ -61,51 +66,57 @@ var GuardarEditar = (e) => {
   });
 };
 
-/*var sucursales = () => {
-    return new Promise((resolve, reject) => {
-      var html = `<option value="0">Seleccione una opción</option>`;
-      $.post(
-        "../../controllers/sucursal.controllers.php?op=todos",
-        async (ListaSucursales) => {
-          ListaSucursales = JSON.parse(ListaSucursales);
-          $.each(ListaSucursales, (index, sucursal) => {
-            html += `<option value="${sucursal.SucursalId}">${sucursal.Nombre}</option>`;
+var uno = async (ID_actor) => {
+  await CargaLista();
+  document.getElementById("tituloModal").innerHTML = "Actualizar Actor";
+  $.post(ruta + "uno", { ID_actor: ID_actor }, (actor) => {
+    actor = JSON.parse(actor);
+    document.getElementById("ID_actor").value = actor.ID_actor;
+    document.getElementById("Nombre").value = actor.Nombre;
+    document.getElementById("Edad").value = actor.Edad;
+    document.getElementById("Genero").value = actor.Genero;
+    document.getElementById("Nacionalidad").value = actor.Nacionalidad;
+  });
+};
+
+var eliminar = (ID_actor) => {
+  Swal.fire({
+    title: "Actor",
+    text: "Esta seguro que desea eliminar el Actor",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Eliminar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post(ruta + "eliminar", { ID_actor: ID_actor }, (respuesta) => {
+        respuesta = JSON.parse(respuesta);
+        if (respuesta == "ok") {
+          CargaLista();
+          Swal.fire({
+            title: "Actor!",
+            text: "Se emliminó con éxito",
+            icon: "success",
           });
-          await $("#SucursalId").html(html);
-          resolve();
-        }
-      ).fail((error) => {
-        reject(error);
-      });
-    });
-  };
-  
-  var roles = () => {
-    return new Promise((resolve, reject) => {
-      var html = `<option value="0">Seleccione una opción</option>`;
-      $.post(
-        "../../controllers/rol.controllers.php?op=todos",
-        async (ListaRoles) => {
-          ListaRoles = JSON.parse(ListaRoles);
-          $.each(ListaRoles, (index, rol) => {
-            html += `<option value="${rol.idRoles}">${rol.Rol}</option>`;
+        } else {
+          Swal.fire({
+            title: "Actor!",
+            text: "No se elimino con exito",
+            icon: "error",
           });
-          await $("#RolId").html(html);
-          resolve();
         }
-      ).fail((error) => {
-        reject(error);
       });
-    });
-  };
-  
-  var eliminar = () => {};*/
+    }
+  });
+};
 
 var LimpiarCajas = () => {
-  (document.getElementById("Nombres").value = ""),
-    (document.getElementById("Apellidos").value = ""),
-    (document.getElementById("Correo").value = ""),
-    (document.getElementById("contrasenia").value = ""),
-    $("#ModalUsuarios").modal("hide");
+  document.getElementById("Nombre").value = "";
+  document.getElementById("Edad").value = "";
+  document.getElementById("Genero").value = "";
+  document.getElementById("Nacionalidad").value = "";
+  document.getElementById("tituloModal").innerHTML = "Insertar Actor";
+  $("#ModalActor").modal("hide");
 };
 init();
