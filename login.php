@@ -51,7 +51,7 @@
                         <!-- Logo -->
                         <div class="app-brand" style="text-align: center;">
                             <span class="app-brand-logo demo">
-                                <img src="./public/images/logosh.jpeg" style="width: 150%; text-align: center;">
+                                <img src="./public/images/logosh.jpeg" style="width: auto; text-align: center;">
                             </span>
                         </div>
                         <!-- /Logo -->
