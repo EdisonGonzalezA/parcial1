@@ -15,6 +15,7 @@
                     <th>Genero</th>
                     <th>Año</th>
                     <th>Director</th>
+                    <th>Actor</th>
                     <th>Acciones</th>
                 </tr>
             </thead>

@@ -15,6 +15,7 @@
                     <th>Edad</th>
                     <th>Genero</th>
                     <th>Nacionalidad</th>
+                    <th>Pelicula</th>
                     <th>Acciones</th>
                 </tr>
             </thead>

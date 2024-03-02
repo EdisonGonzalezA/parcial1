@@ -20,6 +20,7 @@ var CargaLista = () => {
                     <td>${pelicula.Genero}</td>
                     <td>${pelicula.Anio}</td>
                     <td>${pelicula.Director}</td>
+                    <td>${pelicula.Nombre}</td>
         <td>
         <button class='btn btn-primary' onclick='uno(${
           pelicula.ID_pelicula
